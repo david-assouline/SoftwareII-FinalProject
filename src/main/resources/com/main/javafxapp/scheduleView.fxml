@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="517.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.javafxapp.scheduleController">
+   <children>
+      <TableView layoutX="-1.0" layoutY="106.0" prefHeight="340.0" prefWidth="948.0">
+        <columns>
+          <TableColumn fx:id="apptIDColumn" prefWidth="33.0" text="ID" />
+          <TableColumn fx:id="apptTitleColumn" prefWidth="65.60000991821289" text="Title" />
+            <TableColumn fx:id="apptDescriptionColumn" prefWidth="72.00003051757812" text="Description" />
+            <TableColumn fx:id="apptLocationColumn" prefWidth="69.60000610351562" text="Location" />
+            <TableColumn fx:id="apptContactColumn" prefWidth="70.40000915527344" text="Contact" />
+            <TableColumn fx:id="apptTypeColumn" prefWidth="65.60003662109375" text="Type" />
+            <TableColumn fx:id="apptStartDateColumn" prefWidth="79.20001220703125" text="Start Date" />
+            <TableColumn fx:id="apptEndDateColumn" prefWidth="84.0" text="End Date" />
+            <TableColumn fx:id="apptStartTimeColumn" prefWidth="100.0" text="Start Time" />
+            <TableColumn fx:id="apptEndTimeColumn" prefWidth="100.0" text="End Time" />
+            <TableColumn fx:id="apptCustomerID" prefWidth="99.199951171875" text="Customer ID" />
+            <TableColumn fx:id="apptUserIDColumn" prefWidth="101.5999755859375" text="User ID" />
+        </columns>
+      </TableView>
+      <Button layoutX="25.0" layoutY="466.0" mnemonicParsing="false" onAction="#addButtonClicked" prefHeight="26.0" prefWidth="60.0" text="Add" />
+      <Button layoutX="116.0" layoutY="466.0" mnemonicParsing="false" onAction="#modifyButtonClicked" prefWidth="60.0" text="Modify" />
+      <Button layoutX="206.0" layoutY="466.0" mnemonicParsing="false" onAction="#deleteButtonClicked" prefWidth="60.0" text="Delete" />
+      <RadioButton fx:id="viewByWeekRadio" layoutX="25.0" layoutY="25.0" mnemonicParsing="false" selected="true" text="View by Week">
+         <toggleGroup>
+            <ToggleGroup fx:id="viewSelector" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="viewByMonthRadio" layoutX="27.0" layoutY="60.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="106.0" text="View by Month" toggleGroup="$viewSelector" />
+   </children>
+</AnchorPane>
