@@ -1,5 +1,7 @@
-package com.main.javafxapp;
+package com.main.javafxapp.Controllers;
 
+import com.main.javafxapp.Main;
+import com.main.javafxapp.Models.User;
 import com.main.javafxapp.Toolkit.JDBC;
 import com.main.javafxapp.Toolkit.Utility;
 import javafx.event.ActionEvent;
@@ -11,13 +13,12 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class loginController implements Initializable {
+public class LoginController implements Initializable {
     @FXML
     public TextField usernameTextField;
     @FXML
@@ -26,12 +27,15 @@ public class loginController implements Initializable {
     public ToggleGroup LanguageToggleGroup;
     public Text userLocationText;
 
+    public static User authenticatedUser;
+    public static ZoneId zoneID;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         Locale locale = Locale.getDefault();
-        ZoneId zoneId = ZoneId.systemDefault();
-        userLocationText.setText(zoneId.getId());
+        zoneID = ZoneId.systemDefault();
+        userLocationText.setText(zoneID.getId());
     }
 
     public void loginButton(ActionEvent actionEvent) throws SQLException, IOException {
@@ -40,8 +44,9 @@ public class loginController implements Initializable {
         String passwordText = passwordTextField.getText();
 
         if (Utility.authenticateLogin(JDBC.connection, usernameText, passwordText)) {
+            authenticatedUser.setZoneID(zoneID);
             Utility.closeWindow(actionEvent);
-            Utility.getStage(Main.class.getResource("scheduleView.fxml"), "AppointmentSchedule");
+            Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "AppointmentSchedule");
 
         } else {
             Utility.errorAlert("Authentication error", "Could not authenticate user with the given credentials");

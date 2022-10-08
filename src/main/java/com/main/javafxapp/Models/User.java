@@ -1,9 +1,12 @@
 package com.main.javafxapp.Models;
 
+import java.time.ZoneId;
+
 public class User {
     private String userID;
     private String userName;
     private String password;
+    private ZoneId zoneID;
 
     public User() {
         this.userID = null;
@@ -33,5 +36,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public ZoneId getZoneID() {
+        return zoneID;
+    }
+
+    public void setZoneID(ZoneId zoneID) {
+        this.zoneID = zoneID;
     }
 }

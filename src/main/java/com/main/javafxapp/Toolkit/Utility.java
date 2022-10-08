@@ -1,5 +1,6 @@
 package com.main.javafxapp.Toolkit;
 
+import com.main.javafxapp.Controllers.LoginController;
 import com.main.javafxapp.Models.Appointment;
 import com.main.javafxapp.Models.User;
 import javafx.event.ActionEvent;
@@ -17,19 +18,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
+import static com.main.javafxapp.Controllers.LoginController.authenticatedUser;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 
 /**
  * The type Utility.
  */
 public class Utility {
-
-    public static User authenticatedUser;
 
     /**
      * Gets stage.
@@ -151,8 +152,10 @@ public class Utility {
                 nextAppointment.setAppointmentTitle(resultSet.getString("title"));
                 nextAppointment.setAppointmentType(resultSet.getString("type"));
                 nextAppointment.setAppointmentCustomer(resultSet.getString("customerName"));
-                nextAppointment.setAppointmentStartDateTime(localStartZonedDateTime);
-                nextAppointment.setAppointmentEndDateTime(localEndZonedDateTime);
+                nextAppointment.setAppointmentStartDate(localStartZonedDateTime);
+                nextAppointment.setAppointmentStartTime(localStartZonedDateTime);
+                nextAppointment.setAppointmentEndDate(localEndZonedDateTime);
+                nextAppointment.setAppointmentEndTime(localEndZonedDateTime);
                 return nextAppointment;
             }
         }catch(SQLException e){
@@ -160,4 +163,12 @@ public class Utility {
         }
         return null;
     }
+
+    public static ResultSet getCustomers() throws SQLException {
+        String query = "SELECT * FROM customers";
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(query);
+
+    }
+
 }

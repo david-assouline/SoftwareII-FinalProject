@@ -1,11 +1,15 @@
 package com.main.javafxapp.Models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 public class Appointment {
-    
+
+    private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
     private int appointmentID;
     private int appointmentCustomerID;
     private String appointmentTitle;
@@ -14,9 +18,10 @@ public class Appointment {
     private String appointmentCustomer;
     private String appointmentCreatedBy;
     private String appointmentLastUpdateBy;
-
-    private ZonedDateTime appointmentStartDateTime;
-    private ZonedDateTime appointmentEndDateTime;
+    private ZonedDateTime appointmentStartDate;
+    private ZonedDateTime appointmentStartTime;
+    private ZonedDateTime appointmentEndDate;
+    private ZonedDateTime appointmentEndTime;
     private LocalDateTime appointmentCreateDate;
     private Timestamp appointmentLastModified;
 
@@ -84,22 +89,37 @@ public class Appointment {
         this.appointmentLastUpdateBy = appointmentLastUpdateBy;
     }
 
-    public ZonedDateTime getAppointmentStartDateTime() {
-        return appointmentStartDateTime;
+    public ZonedDateTime getAppointmentStartDate() {
+        return appointmentStartDate;
     }
 
-    public void setAppointmentStartDateTime(ZonedDateTime appointmentStartDate) {
-        this.appointmentStartDateTime = appointmentStartDate;
+    public void setAppointmentStartDate(ZonedDateTime appointmentStartDate) {
+        this.appointmentStartDate = appointmentStartDate;
     }
 
-    public ZonedDateTime getAppointmentEndDateTime() {
-        return appointmentEndDateTime;
+    public ZonedDateTime getAppointmentStartTime() {
+        return appointmentStartTime;
     }
 
-    public void setAppointmentEndDateTime(ZonedDateTime appointmentEndDate) {
-        this.appointmentEndDateTime = appointmentEndDate;
+    public void setAppointmentStartTime(ZonedDateTime appointmentStartTime) {
+        this.appointmentStartTime = appointmentStartTime;
     }
 
+    public ZonedDateTime getAppointmentEndDate() {
+        return appointmentEndDate;
+    }
+
+    public void setAppointmentEndDate(ZonedDateTime appointmentEndDate) {
+        this.appointmentEndDate = appointmentEndDate;
+    }
+
+    public ZonedDateTime getAppointmentEndTime() {
+        return appointmentEndTime;
+    }
+
+    public void setAppointmentEndTime(ZonedDateTime appointmentEndTime) {
+        this.appointmentEndTime = appointmentEndTime;
+    }
 
     public LocalDateTime getAppointmentCreateDate() {
         return appointmentCreateDate;

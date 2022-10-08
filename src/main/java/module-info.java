@@ -9,4 +9,6 @@ module com.main.javafxapp {
 
     opens com.main.javafxapp to javafx.fxml;
     exports com.main.javafxapp;
+    exports com.main.javafxapp.Controllers;
+    opens com.main.javafxapp.Controllers to javafx.fxml;
 }
