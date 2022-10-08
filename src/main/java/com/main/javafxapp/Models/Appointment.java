@@ -12,10 +12,12 @@ public class Appointment {
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
     private int appointmentID;
     private int appointmentCustomerID;
+    private int appointmentUserID;
+    private String appointmentContactName;
     private String appointmentTitle;
+    private String appointmentLocation;
     private String appointmentDescription;
     private String appointmentType;
-    private String appointmentCustomer;
     private String appointmentCreatedBy;
     private String appointmentLastUpdateBy;
     private ZonedDateTime appointmentStartDate;
@@ -63,14 +65,6 @@ public class Appointment {
 
     public void setAppointmentType(String appointmentType) {
         this.appointmentType = appointmentType;
-    }
-
-    public String getAppointmentCustomer() {
-        return appointmentCustomer;
-    }
-
-    public void setAppointmentCustomer(String appointmentCustomer) {
-        this.appointmentCustomer = appointmentCustomer;
     }
 
     public String getAppointmentCreatedBy() {
@@ -136,4 +130,41 @@ public class Appointment {
     public void setAppointmentLastModified(Timestamp appointmentLastModified) {
         this.appointmentLastModified = appointmentLastModified;
     }
+
+    public String getAppointmentContactName() {
+        return appointmentContactName;
+    }
+
+    public void setAppointmentContactName(String appointmentContactName) {
+        this.appointmentContactName = appointmentContactName;
+    }
+
+    public int getAppointmentUserID() {
+        return appointmentUserID;
+    }
+
+    public void setAppointmentUserID(int appointmentUserID) {
+        this.appointmentUserID = appointmentUserID;
+    }
+
+    public String getAppointmentLocation() {
+        return appointmentLocation;
+    }
+
+    public void setAppointmentLocation(String appointmentLocation) {
+        this.appointmentLocation = appointmentLocation;
+    }
+
+    public static ObservableList<Appointment> getAllAppointments() {
+        return allAppointments;
+    }
+
+    public static void setAllAppointments(ObservableList<Appointment> allAppointments) {
+        Appointment.allAppointments = allAppointments;
+    }
+
+    public static void addAppointment(Appointment newAppointment) {
+        allAppointments.add(newAppointment);
+    }
+
 }

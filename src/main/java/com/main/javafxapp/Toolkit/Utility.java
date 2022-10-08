@@ -147,15 +147,15 @@ public class Utility {
                 ZonedDateTime localStartZonedDateTime = startZonedDateTime.withZoneSameInstant(zoneId);
                 ZonedDateTime localEndZonedDateTime = endZonedDateTIme.withZoneSameInstant(zoneId);
 
-                nextAppointment.setAppointmentID(resultSet.getInt("appointmentId"));
-                nextAppointment.setAppointmentCustomer(resultSet.getString("customerId"));
-                nextAppointment.setAppointmentTitle(resultSet.getString("title"));
-                nextAppointment.setAppointmentType(resultSet.getString("type"));
-                nextAppointment.setAppointmentCustomer(resultSet.getString("customerName"));
-                nextAppointment.setAppointmentStartDate(localStartZonedDateTime);
-                nextAppointment.setAppointmentStartTime(localStartZonedDateTime);
-                nextAppointment.setAppointmentEndDate(localEndZonedDateTime);
-                nextAppointment.setAppointmentEndTime(localEndZonedDateTime);
+//                nextAppointment.setAppointmentID(resultSet.getInt("appointmentId"));
+//                nextAppointment.setAppointmentCustomerID(resultSet.getString("customerId"));
+//                nextAppointment.setAppointmentTitle(resultSet.getString("title"));
+//                nextAppointment.setAppointmentType(resultSet.getString("type"));
+//                nextAppointment.setAppointmentCustomerName(resultSet.getString("customerName"));
+//                nextAppointment.setAppointmentStartDate(localStartZonedDateTime);
+//                nextAppointment.setAppointmentStartTime(localStartZonedDateTime);
+//                nextAppointment.setAppointmentEndDate(localEndZonedDateTime);
+//                nextAppointment.setAppointmentEndTime(localEndZonedDateTime);
                 return nextAppointment;
             }
         }catch(SQLException e){
@@ -166,6 +166,20 @@ public class Utility {
 
     public static ResultSet getCustomers() throws SQLException {
         String query = "SELECT * FROM customers";
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(query);
+
+    }
+
+    public static ResultSet getContacts() throws SQLException {
+        String query = "SELECT * FROM contacts";
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(query);
+
+    }
+
+    public static ResultSet getUsers() throws SQLException {
+        String query = "SELECT * FROM users";
         Statement stmt = connection.createStatement();
         return stmt.executeQuery(query);
 

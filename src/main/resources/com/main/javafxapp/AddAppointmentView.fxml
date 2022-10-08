@@ -25,7 +25,7 @@
       </Text>
       <Label layoutX="27.0" layoutY="193.0" text="Location" />
       <Label layoutX="25.0" layoutY="233.0" text="Type" />
-      <Label layoutX="25.0" layoutY="277.0" text="Contact ID" />
+      <Label layoutX="25.0" layoutY="277.0" text="Contact" />
       <TextField fx:id="addAppointmentLocation" layoutX="128.0" layoutY="189.0" />
       <TextField fx:id="addAppointmentType" layoutX="128.0" layoutY="229.0" />
       <Label layoutX="384.0" layoutY="69.0" text="Customer ID" />
