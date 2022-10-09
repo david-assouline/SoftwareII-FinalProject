@@ -20,10 +20,8 @@ public class Appointment {
     private String appointmentType;
     private String appointmentCreatedBy;
     private String appointmentLastUpdateBy;
-    private ZonedDateTime appointmentStartDate;
-    private ZonedDateTime appointmentStartTime;
-    private ZonedDateTime appointmentEndDate;
-    private ZonedDateTime appointmentEndTime;
+    private String appointmentStartDateTime;
+    private String appointmentEndDateTime;
     private LocalDateTime appointmentCreateDate;
     private Timestamp appointmentLastModified;
 
@@ -83,36 +81,20 @@ public class Appointment {
         this.appointmentLastUpdateBy = appointmentLastUpdateBy;
     }
 
-    public ZonedDateTime getAppointmentStartDate() {
-        return appointmentStartDate;
+    public String getAppointmentStartDateTime() {
+        return appointmentStartDateTime;
     }
 
-    public void setAppointmentStartDate(ZonedDateTime appointmentStartDate) {
-        this.appointmentStartDate = appointmentStartDate;
+    public void setAppointmentStartDateTime(String appointmentStartDateTime) {
+        this.appointmentStartDateTime = appointmentStartDateTime;
     }
 
-    public ZonedDateTime getAppointmentStartTime() {
-        return appointmentStartTime;
+    public String getAppointmentEndDateTime() {
+        return appointmentEndDateTime;
     }
 
-    public void setAppointmentStartTime(ZonedDateTime appointmentStartTime) {
-        this.appointmentStartTime = appointmentStartTime;
-    }
-
-    public ZonedDateTime getAppointmentEndDate() {
-        return appointmentEndDate;
-    }
-
-    public void setAppointmentEndDate(ZonedDateTime appointmentEndDate) {
-        this.appointmentEndDate = appointmentEndDate;
-    }
-
-    public ZonedDateTime getAppointmentEndTime() {
-        return appointmentEndTime;
-    }
-
-    public void setAppointmentEndTime(ZonedDateTime appointmentEndTime) {
-        this.appointmentEndTime = appointmentEndTime;
+    public void setAppointmentEndDateTime(String appointmentEndDateTime) {
+        this.appointmentEndDateTime = appointmentEndDateTime;
     }
 
     public LocalDateTime getAppointmentCreateDate() {

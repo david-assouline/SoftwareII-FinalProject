@@ -1,5 +1,6 @@
 package com.main.javafxapp.Controllers;
 
+import com.main.javafxapp.Main;
 import com.main.javafxapp.Models.Appointment;
 import com.main.javafxapp.Toolkit.Utility;
 import javafx.collections.FXCollections;
@@ -13,15 +14,20 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Locale;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
+
+import static com.main.javafxapp.Controllers.LoginController.utcZone;
+import static com.main.javafxapp.Toolkit.JDBC.connection;
+import static com.main.javafxapp.Toolkit.Utility.*;
 
 public class AddAppointmentController implements Initializable {
     @FXML
@@ -56,6 +62,8 @@ public class AddAppointmentController implements Initializable {
     public ObservableList<String> contactNameList = FXCollections.observableArrayList();
     public ObservableList<Integer> userIDList = FXCollections.observableArrayList();
 
+    public Map<String, Integer> contactMap = new HashMap<String, Integer>();
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -69,6 +77,7 @@ public class AddAppointmentController implements Initializable {
             resultSet = Utility.getContacts();
             while (resultSet.next()) {
                 contactNameList.add(resultSet.getString("Contact_Name"));
+                contactMap.put(resultSet.getString("Contact_Name"), resultSet.getInt("Contact_ID"));
             }
             addAppointmentContactCB.setItems(contactNameList);
 
@@ -102,6 +111,7 @@ public class AddAppointmentController implements Initializable {
             int appointmentUserID = addAppointmentUserCB.getValue();
 
             Appointment appointment = new Appointment();
+
             appointment.setAppointmentID(id);
             appointment.setAppointmentTitle(appointmentTitle);
             appointment.setAppointmentDescription(appointmentDescription);
@@ -111,15 +121,42 @@ public class AddAppointmentController implements Initializable {
             appointment.setAppointmentCustomerID(appointmentCustomerID);
             appointment.setAppointmentUserID(appointmentUserID);
 
-            Appointment.addAppointment(appointment);
+            Instant instant = Utility.instantBuilder(appointmentStartDate, appointmentStartTimeHour, appointmentStartTimeMinute);
+            appointment.setAppointmentStartDateTime(dateFormatter(instant, utcZone));
 
+            instant = Utility.instantBuilder(appointmentEndDate, appointmentEndTimeHour, appointmentEndTimeMinute);
+            appointment.setAppointmentEndDateTime(dateFormatter(instant, utcZone));
+
+
+            String query = String.format("""
+                    INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By,  Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)
+                    VALUES ("%1$d", "%2$s", "%3$s", "%4$s", "%5$s", "%6$s", "%7$s", NULL, NULL, NULL, NULL, "%8$d", "%9$d", "%10$d");
+                    """,
+            appointment.getAppointmentID(), appointment.getAppointmentTitle(), appointment.getAppointmentDescription(), appointment.getAppointmentLocation(),
+            appointment.getAppointmentType(), appointment.getAppointmentStartDateTime(), appointment.getAppointmentEndDateTime(),
+            appointment.getAppointmentCustomerID(), appointment.getAppointmentUserID(), contactMap.get(appointment.getAppointmentContactName()));
+
+            Statement stmt = connection.createStatement();
+            int response = stmt.executeUpdate(query);
+
+            if (response == 1) {
+                informationAlert("Confirmation", "Successfully added","Appointment has been saved to the database");
+                Utility.closeWindow(actionEvent);
+                Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Appointment Schedule");
+                Appointment.addAppointment(appointment);
+            } else {
+                errorAlert("Error","Could not save appointment to the database");
+                return;
+            }
 
         } catch (Exception e) {
-            Utility.errorAlert("","Invalid Data");
+            Utility.errorAlert("Error","Invalid Data");
             return;
         }
     }
 
-    public void addAppointmentCancelButtonClicked(ActionEvent actionEvent) {
+    public void addAppointmentCancelButtonClicked(ActionEvent actionEvent) throws IOException {
+        Utility.closeWindow(actionEvent);
+        Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Appointment Schedule");
     }
 }

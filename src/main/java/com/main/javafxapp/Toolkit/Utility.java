@@ -19,10 +19,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Optional;
+import java.util.TimeZone;
 
 import static com.main.javafxapp.Controllers.LoginController.authenticatedUser;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
@@ -87,10 +88,10 @@ public class Utility {
         return (confirm.isPresent() && confirm.get() == ButtonType.YES);
     }
 
-    public static void informationAlert(String title, String alertText, String contextText) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, alertText);
+    public static void informationAlert(String title, String headerText, String contextText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setHeaderText(title);
+        alert.setHeaderText(headerText);
         alert.setContentText(contextText);
         alert.showAndWait();
     }
@@ -183,6 +184,21 @@ public class Utility {
         Statement stmt = connection.createStatement();
         return stmt.executeQuery(query);
 
+    }
+
+    public static Instant instantBuilder(LocalDate localDate, int hour, int minute) {
+
+        LocalDateTime dateTime = LocalDateTime.of(localDate.getYear(),localDate.getMonth(),localDate.getDayOfMonth(),hour,minute);
+        return dateTime.atZone(LoginController.zoneID).toInstant();
+    }
+
+    public static Instant convertToUTC(Instant instant) {
+        return instant.atZone(ZoneId.of("UTC")).toInstant();
+    }
+
+    public static String dateFormatter(Instant instant, ZoneId targetTimeZone) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(targetTimeZone);
+        return dateTimeFormatter.format(instant);
     }
 
 }

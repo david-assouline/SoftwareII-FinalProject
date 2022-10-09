@@ -29,12 +29,14 @@ public class LoginController implements Initializable {
 
     public static User authenticatedUser;
     public static ZoneId zoneID;
+    public static ZoneId utcZone;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         Locale locale = Locale.getDefault();
         zoneID = ZoneId.systemDefault();
+        utcZone = ZoneId.of("UTC");
         userLocationText.setText(zoneID.getId());
     }
 
@@ -46,7 +48,7 @@ public class LoginController implements Initializable {
         if (Utility.authenticateLogin(JDBC.connection, usernameText, passwordText)) {
             authenticatedUser.setZoneID(zoneID);
             Utility.closeWindow(actionEvent);
-            Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "AppointmentSchedule");
+            Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Appointment Schedule");
 
         } else {
             Utility.errorAlert("Authentication error", "Could not authenticate user with the given credentials");

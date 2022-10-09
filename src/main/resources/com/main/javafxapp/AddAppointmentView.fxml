@@ -36,10 +36,10 @@
       <Label layoutX="382.0" layoutY="277.0" text="End Time" />
       <DatePicker fx:id="addAppointmentStartDate" layoutX="485.0" layoutY="149.0" />
       <DatePicker fx:id="addAppointmentEndDate" layoutX="485.0" layoutY="229.0" />
-      <Spinner fx:id="addAppointmentStartTimeHours" editable="true" layoutX="485.0" layoutY="189.0" prefHeight="26.0" prefWidth="66.0" />
-      <Spinner fx:id="addAppointmentStartTimeMinutes" editable="true" layoutX="564.0" layoutY="189.0" prefHeight="26.0" prefWidth="66.0" />
-      <Spinner fx:id="addAppointmentEndTimeHours" editable="true" layoutX="487.0" layoutY="272.0" prefHeight="26.0" prefWidth="66.0" />
-      <Spinner fx:id="addAppointmentEndTimeMinutes" editable="true" layoutX="566.0" layoutY="272.0" prefHeight="26.0" prefWidth="66.0" />
+      <Spinner fx:id="addAppointmentStartTimeHours" min="01" max="24" editable="true" layoutX="485.0" layoutY="189.0" prefHeight="26.0" prefWidth="66.0" />
+      <Spinner fx:id="addAppointmentStartTimeMinutes" min="00" max="59" editable="true" layoutX="564.0" layoutY="189.0" prefHeight="26.0" prefWidth="66.0" />
+      <Spinner fx:id="addAppointmentEndTimeHours" min="01" max="24" editable="true" layoutX="487.0" layoutY="272.0" prefHeight="26.0" prefWidth="66.0" />
+      <Spinner fx:id="addAppointmentEndTimeMinutes" min="00" max="59" editable="true" layoutX="566.0" layoutY="272.0" prefHeight="26.0" prefWidth="66.0" />
       <Button layoutX="185.0" layoutY="342.0" mnemonicParsing="false" onAction="#addAppointmentSaveButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Save" />
       <Button layoutX="348.0" layoutY="342.0" mnemonicParsing="false" onAction="#addAppointmentCancelButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Cancel" />
       <ComboBox fx:id="addAppointmentContactCB" layoutX="128.0" layoutY="273.0" prefWidth="150.0" />
