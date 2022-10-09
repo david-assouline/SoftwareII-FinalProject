@@ -3,138 +3,98 @@ package com.main.javafxapp.Models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.security.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-
 public class Appointment {
 
-    private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-    private int appointmentID;
-    private int appointmentCustomerID;
-    private int appointmentUserID;
-    private String appointmentContactName;
-    private String appointmentTitle;
-    private String appointmentLocation;
-    private String appointmentDescription;
-    private String appointmentType;
-    private String appointmentCreatedBy;
-    private String appointmentLastUpdateBy;
-    private String appointmentStartDateTime;
-    private String appointmentEndDateTime;
-    private LocalDateTime appointmentCreateDate;
-    private Timestamp appointmentLastModified;
+    public static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
+    private int ID;
+    private int customerID;
+    private int userID;
+    private String contactName;
+    private String title;
+    private String location;
+    private String description;
+    private String type;
+    private String startDateTime;
+    private String endDateTime;
 
-    public int getAppointmentID() {
-        return appointmentID;
+
+    public int getID() {
+        return ID;
     }
 
-    public void setAppointmentID(int appointmentID) {
-        this.appointmentID = appointmentID;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public int getAppointmentCustomerID() {
-        return appointmentCustomerID;
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setAppointmentCustomerID(int appointmentCustomerID) {
-        this.appointmentCustomerID = appointmentCustomerID;
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
-    public String getAppointmentTitle() {
-        return appointmentTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAppointmentTitle(String appointmentTitle) {
-        this.appointmentTitle = appointmentTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAppointmentDescription() {
-        return appointmentDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAppointmentDescription(String appointmentDescription) {
-        this.appointmentDescription = appointmentDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getAppointmentType() {
-        return appointmentType;
+        return type;
     }
 
     public void setAppointmentType(String appointmentType) {
-        this.appointmentType = appointmentType;
+        this.type = appointmentType;
     }
 
-    public String getAppointmentCreatedBy() {
-        return appointmentCreatedBy;
+    public String getStartDateTime() {
+        return startDateTime;
     }
 
-    public void setAppointmentCreatedBy(String appointmentCreatedBy) {
-        this.appointmentCreatedBy = appointmentCreatedBy;
+    public void setStartDateTime(String startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
-    public String getAppointmentLastUpdateBy() {
-        return appointmentLastUpdateBy;
+    public String getEndDateTime() {
+        return endDateTime;
     }
 
-    public void setAppointmentLastUpdateBy(String appointmentLastUpdateBy) {
-        this.appointmentLastUpdateBy = appointmentLastUpdateBy;
+    public void setEndDateTime(String endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+    public String getContactName() {
+        return contactName;
     }
 
-    public String getAppointmentStartDateTime() {
-        return appointmentStartDateTime;
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
-    public void setAppointmentStartDateTime(String appointmentStartDateTime) {
-        this.appointmentStartDateTime = appointmentStartDateTime;
+    public int getUserID() {
+        return userID;
     }
 
-    public String getAppointmentEndDateTime() {
-        return appointmentEndDateTime;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
-    public void setAppointmentEndDateTime(String appointmentEndDateTime) {
-        this.appointmentEndDateTime = appointmentEndDateTime;
+    public String getLocation() {
+        return location;
     }
 
-    public LocalDateTime getAppointmentCreateDate() {
-        return appointmentCreateDate;
-    }
-
-    public void setAppointmentCreateDate(LocalDateTime appointmentCreateDate) {
-        this.appointmentCreateDate = appointmentCreateDate;
-    }
-
-    public Timestamp getAppointmentLastModified() {
-        return appointmentLastModified;
-    }
-
-    public void setAppointmentLastModified(Timestamp appointmentLastModified) {
-        this.appointmentLastModified = appointmentLastModified;
-    }
-
-    public String getAppointmentContactName() {
-        return appointmentContactName;
-    }
-
-    public void setAppointmentContactName(String appointmentContactName) {
-        this.appointmentContactName = appointmentContactName;
-    }
-
-    public int getAppointmentUserID() {
-        return appointmentUserID;
-    }
-
-    public void setAppointmentUserID(int appointmentUserID) {
-        this.appointmentUserID = appointmentUserID;
-    }
-
-    public String getAppointmentLocation() {
-        return appointmentLocation;
-    }
-
-    public void setAppointmentLocation(String appointmentLocation) {
-        this.appointmentLocation = appointmentLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public static ObservableList<Appointment> getAllAppointments() {

@@ -201,4 +201,17 @@ public class Utility {
         return dateTimeFormatter.format(instant);
     }
 
+    public static String getContactNameFromContactID (int contactID) throws SQLException {
+        String query = String.format("SELECT Contact_Name FROM contacts WHERE Contact_ID = %1$d",contactID);
+
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery(query);
+
+        if (resultSet.next()) {
+            return resultSet.getString("Contact_Name");
+        } else {
+            return null;
+        }
+    }
+
 }
