@@ -1,17 +1,17 @@
 package com.main.javafxapp.Models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Customer {
 
+    public static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
     private int customerID;
-    private String customerName;
+    private String name;
     private String address;
+    private String division;
     private String postalCode;
-    private String Phone;
-    private String createDate;
-    private String lastUpdate;
-    private String createdBy;
-    private String lastUpdatedBy;
-    private int divisionID;
+    private String phone;
 
     public int getCustomerID() {
         return customerID;
@@ -21,12 +21,12 @@ public class Customer {
         this.customerID = customerID;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getName() {
+        return name;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAddress() {
@@ -35,6 +35,14 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getDivision() {
+        return division;
+    }
+
+    public void setDivision(String division) {
+        this.division = division;
     }
 
     public String getPostalCode() {
@@ -46,50 +54,22 @@ public class Customer {
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
-    public String getCreateDate() {
-        return createDate;
+    public static ObservableList<Customer> getAllCustomers() {
+        return allCustomers;
     }
 
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+    public static void setAllCustomers(ObservableList<Customer> allCustomers) {
+        Customer.allCustomers = allCustomers;
     }
 
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
-
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getLastUpdatedBy() {
-        return lastUpdatedBy;
-    }
-
-    public void setLastUpdatedBy(String lastUpdatedBy) {
-        this.lastUpdatedBy = lastUpdatedBy;
-    }
-
-    public int getDivisionID() {
-        return divisionID;
-    }
-
-    public void setDivisionID(int divisionID) {
-        this.divisionID = divisionID;
+    public static void addCustomer(Customer newCustomer) {
+        allCustomers.add(newCustomer);
     }
 }

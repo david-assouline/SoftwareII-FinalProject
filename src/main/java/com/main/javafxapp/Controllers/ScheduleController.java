@@ -113,7 +113,26 @@ public class ScheduleController implements Initializable{
         }
     }
 
-    public void deleteButtonClicked(ActionEvent actionEvent) {
+    public void deleteButtonClicked(ActionEvent actionEvent) throws SQLException {
+        Appointment appointment = appointmentsTable.getSelectionModel().getSelectedItem();
+        if (appointment == null) {
+            errorAlert("", "you must select an appointment to delete");
+        } else {
+            if (confirmationAlert("Confirm Operation",String.format("Are you sure you would like to delete this appointment?" +
+                    "\nAppointment ID: %1$s\tAppointment Type: %2$s", appointment.getID(), appointment.getType()))) {
+                String query = String.format("DELETE FROM appointments WHERE Appointment_ID = %1$d", appointment.getID());
+
+                Statement stmt = connection.createStatement();
+                int deleteResponse = stmt.executeUpdate(query);
+
+                if (deleteResponse != 1) {
+                    errorAlert("Error","Error deleting appointment");
+                    return;
+                } else {
+                    loadAppointments();
+                }
+            }
+        }
     }
 
     public void loadAppointments() throws SQLException {
@@ -147,6 +166,11 @@ public class ScheduleController implements Initializable{
 
             Appointment.addAppointment(appointment);
         }
+    }
+
+    public void customersButtonClicked(ActionEvent actionEvent) throws IOException {
+        Utility.closeWindow(actionEvent);
+        Utility.getStage(Main.class.getResource("CustomerView.fxml"), "Customers");
     }
 }
 

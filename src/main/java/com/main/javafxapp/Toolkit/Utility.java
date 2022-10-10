@@ -169,21 +169,63 @@ public class Utility {
         String query = "SELECT * FROM customers";
         Statement stmt = connection.createStatement();
         return stmt.executeQuery(query);
-
     }
 
     public static ResultSet getContacts() throws SQLException {
         String query = "SELECT * FROM contacts";
         Statement stmt = connection.createStatement();
         return stmt.executeQuery(query);
-
     }
 
     public static ResultSet getUsers() throws SQLException {
         String query = "SELECT * FROM users";
         Statement stmt = connection.createStatement();
         return stmt.executeQuery(query);
+    }
 
+    public static ResultSet getCountries() throws SQLException {
+        String query = "SELECT * FROM countries";
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery(query);
+    }
+
+    public static ResultSet getDivisionsByCountryName(String countryName) throws SQLException {
+        String query = String.format("""
+                SELECT * FROM countries WHERE Country = "%1$s"
+                """, countryName);
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet =  stmt.executeQuery(query);
+
+        if (resultSet.next()) {
+            query = String.format("""
+        SELECT Division FROM first_level_divisions WHERE Country_ID = "%1$s"
+        """, resultSet.getString("Country_ID"));
+        }
+        return stmt.executeQuery(query);
+    }
+
+    public static int getDivisionIDByDivisionName(String divisionName) throws SQLException {
+        String query = String.format("""
+                SELECT Division_ID FROM first_level_divisions WHERE Division = "%1$s"
+                """, divisionName);
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet =  stmt.executeQuery(query);
+        if (resultSet.next()) {
+            return resultSet.getInt("Division_ID");
+        }
+        return -1;
+    }
+
+    public static String getDivisionNameByDivisionID(int divisionID) throws SQLException {
+        String query = String.format("""
+                SELECT Division FROM first_level_divisions WHERE Division_ID = "%1$d"
+                """, divisionID);
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet =  stmt.executeQuery(query);
+        if (resultSet.next()) {
+            return resultSet.getString("Division");
+        }
+        return null;
     }
 
     public static Instant instantBuilder(LocalDate localDate, int hour, int minute) {
