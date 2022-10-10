@@ -17,10 +17,14 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 import static com.main.javafxapp.Toolkit.JDBC.connection;
-import static com.main.javafxapp.Toolkit.Utility.getContactNameFromContactID;
+import static com.main.javafxapp.Toolkit.Utility.*;
 
 public class ScheduleController implements Initializable{
 
@@ -52,6 +56,7 @@ public class ScheduleController implements Initializable{
     public RadioButton viewByMonthRadio;
     @FXML
     public TableView<Appointment> appointmentsTable;
+    public static Appointment selectedAppointment;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,7 +102,15 @@ public class ScheduleController implements Initializable{
         Utility.getStage(Main.class.getResource("AddAppointmentView.fxml"), "Add New Appointment");
     }
 
-    public void modifyButtonClicked(ActionEvent actionEvent) {
+    public void modifyButtonClicked(ActionEvent actionEvent) throws IOException {
+        Appointment appointment = appointmentsTable.getSelectionModel().getSelectedItem();
+        if (appointment == null) {
+            errorAlert("", "you must select an appointment to modify");
+        } else {
+            closeWindow(actionEvent);
+            selectedAppointment = appointment;
+            getStage((Main.class.getResource("ModifyAppointmentView.fxml")), "Modify Part");
+        }
     }
 
     public void deleteButtonClicked(ActionEvent actionEvent) {
@@ -120,9 +133,18 @@ public class ScheduleController implements Initializable{
             appointment.setTitle(resultSet.getString("Title"));
             appointment.setLocation(resultSet.getString("Location"));
             appointment.setDescription(resultSet.getString("Description"));
-            appointment.setAppointmentType(resultSet.getString("Description"));
-            appointment.setStartDateTime(resultSet.getString("Start"));
-            appointment.setEndDateTime(resultSet.getString("End"));
+            appointment.setAppointmentType(resultSet.getString("Type"));
+
+            String sqlTimeStamp = resultSet.getString("Start");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(LoginController.utcZone);
+            String result = dateFormatter(Instant.from(formatter.parse(sqlTimeStamp)), LoginController.zoneID);
+            appointment.setStartDateTime(result);
+
+            sqlTimeStamp = resultSet.getString("End");
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(LoginController.utcZone);
+            result = dateFormatter(Instant.from(formatter.parse(sqlTimeStamp)), LoginController.zoneID);
+            appointment.setEndDateTime(result);
+
             Appointment.addAppointment(appointment);
         }
     }

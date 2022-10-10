@@ -109,4 +109,11 @@ public class Appointment {
         allAppointments.add(newAppointment);
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

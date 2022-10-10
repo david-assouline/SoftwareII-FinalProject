@@ -192,8 +192,8 @@ public class Utility {
         return dateTime.atZone(LoginController.zoneID).toInstant();
     }
 
-    public static Instant convertToUTC(Instant instant) {
-        return instant.atZone(ZoneId.of("UTC")).toInstant();
+    public static Instant convertToTimezone(Instant instant, ZoneId zoneId) {
+        return instant.atZone(zoneId).toInstant();
     }
 
     public static String dateFormatter(Instant instant, ZoneId targetTimeZone) {
