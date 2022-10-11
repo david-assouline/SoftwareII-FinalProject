@@ -256,4 +256,43 @@ public class Utility {
         }
     }
 
+    public static String getCountryNameFromDivisionID (int divisionID) throws SQLException {
+        int countryID;
+
+        String query = String.format("SELECT Country_ID FROM first_level_divisions WHERE Division_ID = %1$d", divisionID);
+
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery(query);
+
+        if (resultSet.next()) {
+            countryID = resultSet.getInt("Country_ID");
+        } else {
+            return null;
+        }
+
+        query = String.format("SELECT Country FROM countries WHERE Country_ID = %1$d", countryID);
+
+        resultSet = stmt.executeQuery(query);
+
+        if (resultSet.next()) {
+            return resultSet.getString("Country");
+        } else {
+            return null;
+        }
+    }
+
+    public static boolean customerHasAppointment(int customerID) throws SQLException {
+        String query = String.format("SELECT * FROM appointments WHERE Customer_ID = %1$d", customerID);
+
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery(query);
+
+        if (resultSet.next()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

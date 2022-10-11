@@ -9,6 +9,7 @@ public class Customer {
     private int customerID;
     private String name;
     private String address;
+    private String country;
     private String division;
     private String postalCode;
     private String phone;
@@ -59,6 +60,14 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public static ObservableList<Customer> getAllCustomers() {

@@ -37,7 +37,7 @@ public class CustomerController implements Initializable {
     public TableView<Customer> customersTable;
     @FXML
     public TableColumn<Customer, String> customerDivisionColumn;
-
+    public static Customer selectedCustomer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -65,23 +65,38 @@ public class CustomerController implements Initializable {
         if (customer == null) {
             errorAlert("", "you must select a customer to delete");
         } else {
-            if (confirmationAlert("Confirm Operation","Are you sure you would like to delete this customer?")) {
-                String query = String.format("DELETE FROM customers WHERE Customer_ID = %1$d", customer.getCustomerID());
+            if (customerHasAppointment(customer.getCustomerID())) {
+                errorAlert("Could not complete operation","Customer has existing appointments. Please delete" +
+                        " them first!");
+                return;
+            } else {
+                if (confirmationAlert("Confirm Operation","Are you sure you would like to delete this customer?")) {
+                    String query = String.format("DELETE FROM customers WHERE Customer_ID = %1$d", customer.getCustomerID());
 
-                Statement stmt = connection.createStatement();
-                int deleteResponse = stmt.executeUpdate(query);
+                    Statement stmt = connection.createStatement();
+                    int deleteResponse = stmt.executeUpdate(query);
 
-                if (deleteResponse != 1) {
-                    errorAlert("Error","Error deleting customer");
-                    return;
-                } else {
-                    loadCustomers();
+                    if (deleteResponse != 1) {
+                        errorAlert("Error","Error deleting customer");
+                        return;
+                    } else {
+                        loadCustomers();
+                    }
                 }
+
             }
         }
     }
 
-    public void modifyButtonClicked(ActionEvent actionEvent) {
+    public void modifyButtonClicked(ActionEvent actionEvent) throws IOException {
+        Customer customer = customersTable.getSelectionModel().getSelectedItem();
+        if (customer == null) {
+            errorAlert("", "you must select a customer to modify");
+        } else {
+            closeWindow(actionEvent);
+            selectedCustomer = customer;
+            getStage((Main.class.getResource("ModifyCustomerView.fxml")), "Modify Customer");
+        }
     }
 
     public void scheduleViewButtonClicked(ActionEvent actionEvent) throws IOException {
@@ -98,6 +113,7 @@ public class CustomerController implements Initializable {
             customer.setCustomerID(resultSet.getInt("Customer_ID"));
             customer.setName(resultSet.getString("Customer_Name"));
             customer.setAddress(resultSet.getString("Address"));
+            customer.setCountry(getCountryNameFromDivisionID(resultSet.getInt("Division_ID")));
             customer.setDivision(getDivisionNameByDivisionID(resultSet.getInt("Division_ID")));
             customer.setPostalCode(resultSet.getString("Postal_Code"));
             customer.setPhone(resultSet.getString("Phone"));

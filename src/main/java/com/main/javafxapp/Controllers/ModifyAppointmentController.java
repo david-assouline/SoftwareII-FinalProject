@@ -152,8 +152,21 @@ public class ModifyAppointmentController implements Initializable {
             Instant instant = Utility.instantBuilder(appointmentStartDate, appointmentStartTimeHour, appointmentStartTimeMinute);
             appointment.setStartDateTime(dateFormatter(instant, utcZone));
 
+            if (instant.atZone(utcZone).getHour() >= 2 && instant.atZone(utcZone).getHour() < 12) {
+                errorAlert("Invalid start time", "Start time is outside of business hours!");
+                return;
+            }
+
             instant = Utility.instantBuilder(appointmentEndDate, appointmentEndTimeHour, appointmentEndTimeMinute);
             appointment.setEndDateTime(dateFormatter(instant, utcZone));
+
+            if (instant.atZone(utcZone).getHour() == 2 && instant.atZone(utcZone).getMinute() > 0 ) {
+                errorAlert("Invalid start time", "End time is outside of business hours!");
+                return;
+            } else if (instant.atZone(utcZone).getHour() > 2 && instant.atZone(utcZone).getHour() < 12) {
+                errorAlert("Invalid start time", "End time is outside of business hours!");
+                return;
+            }
 
             String query = String.format("DELETE FROM appointments WHERE Appointment_ID = %1$d",appointment.getID());
 

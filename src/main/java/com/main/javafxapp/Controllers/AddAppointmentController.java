@@ -121,9 +121,21 @@ public class AddAppointmentController implements Initializable {
             Instant instant = Utility.instantBuilder(appointmentStartDate, appointmentStartTimeHour, appointmentStartTimeMinute);
             appointment.setStartDateTime(dateFormatter(instant, utcZone));
 
+            if (instant.atZone(utcZone).getHour() >= 2 && instant.atZone(utcZone).getHour() < 12) {
+                errorAlert("Invalid start time", "Start time is outside of business hours!");
+                return;
+            }
+
             instant = Utility.instantBuilder(appointmentEndDate, appointmentEndTimeHour, appointmentEndTimeMinute);
             appointment.setEndDateTime(dateFormatter(instant, utcZone));
 
+            if (instant.atZone(utcZone).getHour() == 2 && instant.atZone(utcZone).getMinute() > 0 ) {
+                errorAlert("Invalid start time", "End time is outside of business hours!");
+                return;
+            } else if (instant.atZone(utcZone).getHour() > 2 && instant.atZone(utcZone).getHour() < 12) {
+                errorAlert("Invalid start time", "End time is outside of business hours!");
+                return;
+            }
 
             String query = String.format("""
                     INSERT INTO appointments (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, Created_By,  Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID)

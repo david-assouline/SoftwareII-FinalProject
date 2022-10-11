@@ -57,12 +57,17 @@ public class ScheduleController implements Initializable{
     @FXML
     public TableView<Appointment> appointmentsTable;
     public static Appointment selectedAppointment;
+    public RadioButton viewAllRadio;
+
+    String THIS_MONTH_QUERY = "SELECT * FROM client_schedule.appointments WHERE MONTH(Start) = MONTH(now()) AND YEAR(Start) = YEAR(now());";
+    String THIS_WEEK_QUERY = "SELECT * FROM client_schedule.appointments WHERE WEEK(Start) = WEEK(now()) AND YEAR(Start) = YEAR(now());";
+    String ALL_TIME_QUERY = "SELECT * FROM client_schedule.appointments";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         try {
-            loadAppointments();
+            loadAppointments(THIS_WEEK_QUERY);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -109,7 +114,7 @@ public class ScheduleController implements Initializable{
         } else {
             closeWindow(actionEvent);
             selectedAppointment = appointment;
-            getStage((Main.class.getResource("ModifyAppointmentView.fxml")), "Modify Part");
+            getStage((Main.class.getResource("ModifyAppointmentView.fxml")), "Modify Appointment");
         }
     }
 
@@ -129,16 +134,20 @@ public class ScheduleController implements Initializable{
                     errorAlert("Error","Error deleting appointment");
                     return;
                 } else {
-                    loadAppointments();
+                    if ((RadioButton) viewSelector.getSelectedToggle() == viewByWeekRadio) {
+                        loadAppointments(THIS_WEEK_QUERY);
+                    } else if ((RadioButton) viewSelector.getSelectedToggle() == (RadioButton) viewByMonthRadio) {
+                        loadAppointments(THIS_MONTH_QUERY);
+                    } else {
+                        loadAppointments(ALL_TIME_QUERY);
+                    }
                 }
             }
         }
     }
 
-    public void loadAppointments() throws SQLException {
+    public void loadAppointments(String query) throws SQLException {
         Appointment.allAppointments.clear();
-
-        String query = "SELECT * FROM appointments";
 
         Statement stmt = connection.createStatement();
         ResultSet resultSet = stmt.executeQuery(query);
@@ -171,6 +180,18 @@ public class ScheduleController implements Initializable{
     public void customersButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("CustomerView.fxml"), "Customers");
+    }
+
+    public void viewByWeekRadioClicked(ActionEvent actionEvent) throws SQLException {
+        loadAppointments(THIS_WEEK_QUERY);
+    }
+
+    public void viewByMonthRadioClicked(ActionEvent actionEvent) throws SQLException {
+        loadAppointments(THIS_MONTH_QUERY);
+    }
+
+    public void viewAllRadioClicked(ActionEvent actionEvent) throws SQLException {
+        loadAppointments(ALL_TIME_QUERY);
     }
 }
 
