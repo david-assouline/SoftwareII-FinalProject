@@ -20,9 +20,11 @@ import java.sql.Statement;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+import static com.main.javafxapp.Controllers.LoginController.zoneID;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
@@ -84,22 +86,6 @@ public class ScheduleController implements Initializable{
         apptCustomerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
         apptUserIDColumn.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
-//        Appointment nextAppointment = Utility.appointmentWithinFifteen();
-//        if (nextAppointment != null) {
-//            String message = String.format("Your appointment (ID: %1$s) is scheduled for %2$s",
-//                    nextAppointment.getAppointmentID(),
-//                    nextAppointment.getAppointmentStartDateTime());
-//
-//            Utility.informationAlert(
-//                    "Upcoming Appointment",
-//                    "You have an appointment in the next 15 minutes",
-//                    message);
-//        } else {
-//            Utility.informationAlert(
-//                    "Upcoming Appointment",
-//                    "You have no upcoming appointments in the next 15 minutes",
-//                    "");
-//        }
     }
 
     public void addButtonClicked(ActionEvent actionEvent) throws IOException {
@@ -165,7 +151,7 @@ public class ScheduleController implements Initializable{
 
             String sqlTimeStamp = resultSet.getString("Start");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(LoginController.utcZone);
-            String result = dateFormatter(Instant.from(formatter.parse(sqlTimeStamp)), LoginController.zoneID);
+            String result = dateFormatter(Instant.from(formatter.parse(sqlTimeStamp)), zoneID);
             appointment.setStartDateTime(result);
 
             sqlTimeStamp = resultSet.getString("End");

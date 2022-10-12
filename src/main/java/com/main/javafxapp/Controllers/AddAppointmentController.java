@@ -118,22 +118,28 @@ public class AddAppointmentController implements Initializable {
             appointment.setCustomerID(appointmentCustomerID);
             appointment.setUserID(appointmentUserID);
 
-            Instant instant = Utility.instantBuilder(appointmentStartDate, appointmentStartTimeHour, appointmentStartTimeMinute);
-            appointment.setStartDateTime(dateFormatter(instant, utcZone));
+            Instant startInstant = Utility.instantBuilder(appointmentStartDate, appointmentStartTimeHour, appointmentStartTimeMinute);
+            appointment.setStartDateTime(dateFormatter(startInstant, utcZone));
 
-            if (instant.atZone(utcZone).getHour() >= 2 && instant.atZone(utcZone).getHour() < 12) {
+            if (startInstant.atZone(utcZone).getHour() >= 2 && startInstant.atZone(utcZone).getHour() < 12) {
                 errorAlert("Invalid start time", "Start time is outside of business hours!");
                 return;
             }
 
-            instant = Utility.instantBuilder(appointmentEndDate, appointmentEndTimeHour, appointmentEndTimeMinute);
-            appointment.setEndDateTime(dateFormatter(instant, utcZone));
+            Instant endInstant = Utility.instantBuilder(appointmentEndDate, appointmentEndTimeHour, appointmentEndTimeMinute);
+            appointment.setEndDateTime(dateFormatter(endInstant, utcZone));
 
-            if (instant.atZone(utcZone).getHour() == 2 && instant.atZone(utcZone).getMinute() > 0 ) {
+            if (endInstant.atZone(utcZone).getHour() == 2 && endInstant.atZone(utcZone).getMinute() > 0 ) {
                 errorAlert("Invalid start time", "End time is outside of business hours!");
                 return;
-            } else if (instant.atZone(utcZone).getHour() > 2 && instant.atZone(utcZone).getHour() < 12) {
+            } else if (endInstant.atZone(utcZone).getHour() > 2 && endInstant.atZone(utcZone).getHour() < 12) {
                 errorAlert("Invalid start time", "End time is outside of business hours!");
+                return;
+            }
+
+            if (hasOverlappingAppointment(startInstant, endInstant, appointmentCustomerID)) {
+                errorAlert("Appointment Conflict","The appointment you are attempting to create overlaps with an" +
+                        " existing appointment!");
                 return;
             }
 

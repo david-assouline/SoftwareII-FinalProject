@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 import static com.main.javafxapp.Controllers.LoginController.authenticatedUser;
+import static com.main.javafxapp.Controllers.LoginController.utcZone;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 
 /**
@@ -115,54 +116,6 @@ public class Utility {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static Appointment appointmentWithinFifteen(){
-
-        LocalDateTime localDateTime = LocalDateTime.now();
-        ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime zonedDateTime = localDateTime.atZone(zoneId);
-        LocalDateTime startTime = zonedDateTime.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
-        LocalDateTime endTime = startTime.plusMinutes(15);
-
-
-        int userID = Integer.parseInt(authenticatedUser.getUserID());
-
-        try{
-
-            String query = String.format("""
-                    SELECT * FROM appointment\s
-                    JOIN customer ON appointment.customerId=customer.customerId JOIN user ON appointment.userId=user.userId
-                    WHERE start BETWEEN '%1$s' AND '%2$s' AND appointment.userId='%3$s'""",startTime, endTime, userID);
-
-            Statement stmt = connection.createStatement();
-            ResultSet resultSet = stmt.executeQuery(query);
-            
-            if(resultSet.next()){
-                Appointment nextAppointment = new Appointment();
-                LocalDateTime startDateTime = resultSet.getTimestamp("start").toLocalDateTime();
-                LocalDateTime endDateTime = resultSet.getTimestamp("end").toLocalDateTime();
-
-                ZonedDateTime startZonedDateTime = startDateTime.atZone(ZoneId.of("UTC"));
-                ZonedDateTime endZonedDateTIme = endDateTime.atZone(ZoneId.of("UTC"));
-                ZonedDateTime localStartZonedDateTime = startZonedDateTime.withZoneSameInstant(zoneId);
-                ZonedDateTime localEndZonedDateTime = endZonedDateTIme.withZoneSameInstant(zoneId);
-
-//                nextAppointment.setAppointmentID(resultSet.getInt("appointmentId"));
-//                nextAppointment.setAppointmentCustomerID(resultSet.getString("customerId"));
-//                nextAppointment.setAppointmentTitle(resultSet.getString("title"));
-//                nextAppointment.setAppointmentType(resultSet.getString("type"));
-//                nextAppointment.setAppointmentCustomerName(resultSet.getString("customerName"));
-//                nextAppointment.setAppointmentStartDate(localStartZonedDateTime);
-//                nextAppointment.setAppointmentStartTime(localStartZonedDateTime);
-//                nextAppointment.setAppointmentEndDate(localEndZonedDateTime);
-//                nextAppointment.setAppointmentEndTime(localEndZonedDateTime);
-                return nextAppointment;
-            }
-        }catch(SQLException e){
-            throw new RuntimeException(e);
-        }
-        return null;
     }
 
     public static ResultSet getCustomers() throws SQLException {
@@ -292,6 +245,29 @@ public class Utility {
         } else {
             return false;
         }
+    }
+
+    public static boolean hasOverlappingAppointment(Instant proposedStartTime, Instant proposedEndTime, int customerID) throws SQLException {
+        String query = String.format("""
+        SELECT * FROM appointments WHERE Customer_ID = %1$d
+        """, customerID);
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery(query);
+
+        while (resultSet.next()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(LoginController.utcZone);
+
+            String sqlStartTimeStamp = resultSet.getString("Start");
+            Instant existingStartTime = Instant.from(formatter.parse(sqlStartTimeStamp));
+
+            String sqlEndTimeStamp = resultSet.getString("End");
+            Instant existingEndTime = Instant.from(formatter.parse(sqlEndTimeStamp));
+
+            if (proposedStartTime.isBefore(existingEndTime) && existingStartTime.isBefore(proposedEndTime)) {
+                return true;
+            }
+        }
+        return false;
 
     }
 
