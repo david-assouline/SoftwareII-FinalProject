@@ -25,15 +25,42 @@ import static com.main.javafxapp.Controllers.LoginController.utcZone;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
+/**
+ * The type Add customer controller.
+ */
 public class AddCustomerController implements Initializable {
 
+    /**
+     * The Name field.
+     */
     public TextField nameField;
+    /**
+     * The Address field.
+     */
     public TextField addressField;
+    /**
+     * The Postal code field.
+     */
     public TextField postalCodeField;
+    /**
+     * The Phone number field.
+     */
     public TextField phoneNumberField;
+    /**
+     * The Country combo box.
+     */
     public ComboBox<String> countryComboBox;
+    /**
+     * The Division combo box.
+     */
     public ComboBox<String> divisionComboBox;
+    /**
+     * The Country list.
+     */
     public ObservableList<String> countryList = FXCollections.observableArrayList();
+    /**
+     * The Division list.
+     */
     public ObservableList<String> divisionList = FXCollections.observableArrayList();
 
 
@@ -51,6 +78,11 @@ public class AddCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Save button clicked.
+     *
+     * @param actionEvent the action event
+     */
     public void saveButtonClicked(ActionEvent actionEvent) {
         Random rand = new Random();
         try {
@@ -96,11 +128,24 @@ public class AddCustomerController implements Initializable {
             return;
         }
     }
+
+    /**
+     * Cancel button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void cancelButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("CustomerView.fxml"), "Customers");
     }
 
+    /**
+     * Country selected.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void countrySelected(ActionEvent actionEvent) throws SQLException {
         divisionList.clear();
         ResultSet resultSet = Utility.getDivisionsByCountryName(countryComboBox.getValue());

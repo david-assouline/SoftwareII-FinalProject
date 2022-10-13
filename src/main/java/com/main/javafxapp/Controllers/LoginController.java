@@ -8,11 +8,10 @@ import com.main.javafxapp.Toolkit.Utility;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,35 +25,99 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.dateFormatter;
 import static com.main.javafxapp.Toolkit.Utility.informationAlert;
 
+/**
+ * The type Login controller.
+ */
 public class LoginController implements Initializable {
+    /**
+     * The Username text field.
+     */
     @FXML
     public TextField usernameTextField;
+    /**
+     * The Password text field.
+     */
     @FXML
     public TextField passwordTextField;
+    /**
+     * The User location text.
+     */
     @FXML
-    public ToggleGroup LanguageToggleGroup;
     public Text userLocationText;
 
+    /**
+     * The constant authenticatedUser.
+     */
     public static User authenticatedUser;
+    /**
+     * The constant zoneID.
+     */
     public static ZoneId zoneID;
+    /**
+     * The constant utcZone.
+     */
     public static ZoneId utcZone;
+    /**
+     * The Username label.
+     */
+    @FXML
+    public Text usernameLabel;
+    /**
+     * The Password label.
+     */
+    @FXML
+    public Text passwordLabel;
+    /**
+     * The Login button.
+     */
+    @FXML
+    public Button loginButton;
+    /**
+     * The Exit label.
+     */
+    @FXML
+    public Button exitLabel;
+    /**
+     * The User location label.
+     */
+    @FXML
+    public Label userLocationLabel;
+    /**
+     * The Locale.
+     */
+    public Locale locale;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        Locale locale = Locale.getDefault();
+        locale = Locale.getDefault();
         zoneID = ZoneId.systemDefault();
         utcZone = ZoneId.of("UTC");
         userLocationText.setText(zoneID.getId());
 
+        if (Objects.equals(locale.getLanguage(), "fr")) {
+            usernameLabel.setText("Nom d'utilisateur");
+            passwordLabel.setText("Mot de passe");
+            loginButton.setText("Connexion");
+            exitLabel.setText("Quitter");
+            userLocationLabel.setText("Emplacement:");
+        }
     }
 
+    /**
+     * Login button.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     * @throws IOException  the io exception
+     */
     public void loginButton(ActionEvent actionEvent) throws SQLException, IOException {
 
         String usernameText = usernameTextField.getText();
@@ -80,7 +143,11 @@ public class LoginController implements Initializable {
             outputFile.close();
 
         } else {
-            Utility.errorAlert("Authentication error", "Could not authenticate user with the given credentials");
+            if (Objects.equals(locale.getLanguage(), "fr")) {
+                Utility.errorAlert("Erreur d'authentification", "Vos informations n'ont pas été trouvés dans la base de données");
+            } else {
+                Utility.errorAlert("Authentication error", "Could not authenticate user with the given credentials");
+            }
 
             FileWriter fileWriter = new FileWriter("login_activity.txt", true);
             PrintWriter outputFile = new PrintWriter(fileWriter);
@@ -89,9 +156,12 @@ public class LoginController implements Initializable {
         }
     }
 
-    public void resetButton(ActionEvent actionEvent) {
-    }
-
+    /**
+     * Check within fifteen int.
+     *
+     * @return the int
+     * @throws SQLException the sql exception
+     */
     public int checkWithinFifteen() throws SQLException {
         int response = -1;
 
@@ -112,5 +182,14 @@ public class LoginController implements Initializable {
             }
         }
         return response;
+    }
+
+    /**
+     * Exit button clicked.
+     *
+     * @param actionEvent the action event
+     */
+    public void exitButtonClicked(ActionEvent actionEvent) {
+        Utility.closeWindow(actionEvent);
     }
 }

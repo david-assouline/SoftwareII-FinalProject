@@ -28,41 +28,101 @@ import static com.main.javafxapp.Controllers.LoginController.zoneID;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
+/**
+ * The type Schedule controller.
+ */
 public class ScheduleController implements Initializable{
 
+    /**
+     * The Appt id column.
+     */
     @FXML
     public TableColumn<Appointment, Integer> apptIDColumn;
+    /**
+     * The Appt title column.
+     */
     @FXML
     public TableColumn<Appointment, String> apptTitleColumn;
+    /**
+     * The Appt description column.
+     */
     @FXML
     public TableColumn<Appointment, String> apptDescriptionColumn;
+    /**
+     * The Appt location column.
+     */
     @FXML
     public TableColumn<Appointment, String> apptLocationColumn;
+    /**
+     * The Appt contact column.
+     */
     @FXML
     public TableColumn<Appointment, String> apptContactColumn;
+    /**
+     * The Appt type column.
+     */
     @FXML
     public TableColumn<Appointment, String> apptTypeColumn;
+    /**
+     * The Appt start date time.
+     */
     @FXML
     public TableColumn<Appointment, String> apptStartDateTime;
+    /**
+     * The Appt end date time.
+     */
     @FXML
     public TableColumn<Appointment, String> apptEndDateTime;
+    /**
+     * The Appt customer id.
+     */
     @FXML
     public TableColumn<Appointment, Integer> apptCustomerID;
+    /**
+     * The Appt user id column.
+     */
     @FXML
     public TableColumn<Appointment, Integer> apptUserIDColumn;
+    /**
+     * The View by week radio.
+     */
     @FXML
     public RadioButton viewByWeekRadio;
+    /**
+     * The View selector.
+     */
     @FXML
     public ToggleGroup viewSelector;
+    /**
+     * The View by month radio.
+     */
     @FXML
     public RadioButton viewByMonthRadio;
+    /**
+     * The Appointments table.
+     */
     @FXML
     public TableView<Appointment> appointmentsTable;
+    /**
+     * The constant selectedAppointment.
+     */
     public static Appointment selectedAppointment;
+    /**
+     * The View all radio.
+     */
     public RadioButton viewAllRadio;
 
+    /**
+     * The This month query.
+     */
     String THIS_MONTH_QUERY = "SELECT * FROM client_schedule.appointments WHERE MONTH(Start) = MONTH(now()) AND YEAR(Start) = YEAR(now());";
+    /**
+     * The This week query.
+     */
     String THIS_WEEK_QUERY = "SELECT * FROM client_schedule.appointments WHERE WEEK(Start) = WEEK(now()) AND YEAR(Start) = YEAR(now());";
+    /**
+     * The All time query.
+     */
     String ALL_TIME_QUERY = "SELECT * FROM client_schedule.appointments";
 
     @Override
@@ -88,11 +148,23 @@ public class ScheduleController implements Initializable{
 
     }
 
+    /**
+     * Add button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void addButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("AddAppointmentView.fxml"), "Add New Appointment");
     }
 
+    /**
+     * Modify button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void modifyButtonClicked(ActionEvent actionEvent) throws IOException {
         Appointment appointment = appointmentsTable.getSelectionModel().getSelectedItem();
         if (appointment == null) {
@@ -104,6 +176,12 @@ public class ScheduleController implements Initializable{
         }
     }
 
+    /**
+     * Delete button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void deleteButtonClicked(ActionEvent actionEvent) throws SQLException {
         Appointment appointment = appointmentsTable.getSelectionModel().getSelectedItem();
         if (appointment == null) {
@@ -132,6 +210,12 @@ public class ScheduleController implements Initializable{
         }
     }
 
+    /**
+     * Load appointments.
+     *
+     * @param query the query
+     * @throws SQLException the sql exception
+     */
     public void loadAppointments(String query) throws SQLException {
         Appointment.allAppointments.clear();
 
@@ -163,21 +247,56 @@ public class ScheduleController implements Initializable{
         }
     }
 
+    /**
+     * Customers button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void customersButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("CustomerView.fxml"), "Customers");
     }
 
+    /**
+     * View by week radio clicked.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void viewByWeekRadioClicked(ActionEvent actionEvent) throws SQLException {
         loadAppointments(THIS_WEEK_QUERY);
     }
 
+    /**
+     * View by month radio clicked.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void viewByMonthRadioClicked(ActionEvent actionEvent) throws SQLException {
         loadAppointments(THIS_MONTH_QUERY);
     }
 
+    /**
+     * View all radio clicked.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void viewAllRadioClicked(ActionEvent actionEvent) throws SQLException {
         loadAppointments(ALL_TIME_QUERY);
+    }
+
+    /**
+     * Reports button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
+    public void reportsButtonClicked(ActionEvent actionEvent) throws IOException {
+        Utility.closeWindow(actionEvent);
+        Utility.getStage(Main.class.getResource("ReportsView.fxml"), "Reports");
     }
 }
 

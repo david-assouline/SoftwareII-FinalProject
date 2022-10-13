@@ -21,3 +21,4 @@ mysql-connector-java 8.0.30
 Using an IDE, run the Main.java file located at java/com/main/javafxapp/Main.java
 
 ### Additional Report
+Includes an additional report listing all the contacts (ID, Name, Email Address) in the database for reference.

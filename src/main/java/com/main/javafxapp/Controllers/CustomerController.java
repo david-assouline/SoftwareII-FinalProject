@@ -24,19 +24,43 @@ import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 import static com.main.javafxapp.Toolkit.Utility.dateFormatter;
 
+/**
+ * The type Customer controller.
+ */
 public class CustomerController implements Initializable {
+    /**
+     * The Customer phone number column.
+     */
     @FXML
     public TableColumn<Customer, String> customerPhoneNumberColumn;
+    /**
+     * The Customer postal code column.
+     */
     @FXML
     public TableColumn<Customer, String> customerPostalCodeColumn;
+    /**
+     * The Customer address column.
+     */
     @FXML
     public TableColumn<Customer, String> customerAddressColumn;
+    /**
+     * The Customer name column.
+     */
     @FXML
     public TableColumn<Customer, String> customerNameColumn;
+    /**
+     * The Customers table.
+     */
     @FXML
     public TableView<Customer> customersTable;
+    /**
+     * The Customer division column.
+     */
     @FXML
     public TableColumn<Customer, String> customerDivisionColumn;
+    /**
+     * The constant selectedCustomer.
+     */
     public static Customer selectedCustomer;
 
     @Override
@@ -54,12 +78,25 @@ public class CustomerController implements Initializable {
         customerDivisionColumn.setCellValueFactory(new PropertyValueFactory<>("division"));
         customerNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
     }
+
+    /**
+     * Add button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void addButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("AddCustomerView.fxml"), "Add Customer");
 
     }
 
+    /**
+     * Delete button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void deleteButtonClicked(ActionEvent actionEvent) throws SQLException {
         Customer customer = customersTable.getSelectionModel().getSelectedItem();
         if (customer == null) {
@@ -88,6 +125,12 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * Modify button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void modifyButtonClicked(ActionEvent actionEvent) throws IOException {
         Customer customer = customersTable.getSelectionModel().getSelectedItem();
         if (customer == null) {
@@ -99,11 +142,22 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * Schedule view button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void scheduleViewButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Schedule");
     }
 
+    /**
+     * Load customers.
+     *
+     * @throws SQLException the sql exception
+     */
     public void loadCustomers() throws SQLException {
         Customer.allCustomers.clear();
         ResultSet resultSet = getCustomers();

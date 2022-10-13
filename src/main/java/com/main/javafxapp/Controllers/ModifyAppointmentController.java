@@ -33,39 +33,96 @@ import static com.main.javafxapp.Controllers.ScheduleController.selectedAppointm
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
+/**
+ * The type Modify appointment controller.
+ */
 public class ModifyAppointmentController implements Initializable {
+    /**
+     * The Modify appointment user cb.
+     */
     @FXML
     public ComboBox<Integer> modifyAppointmentUserCB;
+    /**
+     * The Modify appointment customer cb.
+     */
     @FXML
     public ComboBox<Integer> modifyAppointmentCustomerCB;
+    /**
+     * The Modify appointment contact cb.
+     */
     @FXML
     public ComboBox<String> modifyAppointmentContactCB;
+    /**
+     * The Modify appointment end time minutes.
+     */
     @FXML
     public Spinner<Integer> modifyAppointmentEndTimeMinutes;
+    /**
+     * The Modify appointment end time hours.
+     */
     @FXML
     public Spinner<Integer> modifyAppointmentEndTimeHours;
+    /**
+     * The Modify appointment start time minutes.
+     */
     @FXML
     public Spinner<Integer> modifyAppointmentStartTimeMinutes;
+    /**
+     * The Modify appointment start time hours.
+     */
     @FXML
     public Spinner<Integer> modifyAppointmentStartTimeHours;
+    /**
+     * The Modify appointment end date.
+     */
     @FXML
     public DatePicker modifyAppointmentEndDate;
+    /**
+     * The Modify appointment start date.
+     */
     @FXML
     public DatePicker modifyAppointmentStartDate;
+    /**
+     * The Modify appointment type.
+     */
     @FXML
     public TextField modifyAppointmentType;
+    /**
+     * The Modify appointment location.
+     */
     @FXML
     public TextField modifyAppointmentLocation;
+    /**
+     * The Modify appointment description.
+     */
     @FXML
     public TextField modifyAppointmentDescription;
+    /**
+     * The Modify appointment title.
+     */
     @FXML
     public TextField modifyAppointmentTitle;
+    /**
+     * The Modify appointment id.
+     */
     @FXML
     public TextField modifyAppointmentID;
 
+    /**
+     * The Customer id list.
+     */
     ObservableList<Integer> customerIDList = FXCollections.observableArrayList();
+    /**
+     * The Contact name list.
+     */
     ObservableList<String> contactNameList = FXCollections.observableArrayList();
+    /**
+     * The User id list.
+     */
     ObservableList<Integer> userIDList = FXCollections.observableArrayList();
+    /**
+     * The Contact map.
+     */
     public Map<String, Integer> contactMap = new HashMap<String, Integer>();
 
     @Override
@@ -121,6 +178,12 @@ public class ModifyAppointmentController implements Initializable {
         }
 
     }
+
+    /**
+     * Modify appointment save button clicked.
+     *
+     * @param actionEvent the action event
+     */
     public void modifyAppointmentSaveButtonClicked(ActionEvent actionEvent) {
         try {
             int appointmentID = Integer.parseInt(modifyAppointmentID.getText());
@@ -203,6 +266,12 @@ public class ModifyAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Modify appointment cancel button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void modifyAppointmentCancelButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Appointment Schedule");

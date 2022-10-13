@@ -22,23 +22,53 @@ import static com.main.javafxapp.Controllers.CustomerController.selectedCustomer
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
+/**
+ * The type Modify customer controller.
+ */
 public class ModifyCustomerController implements Initializable {
 
+    /**
+     * The Customer id.
+     */
     @FXML
     public TextField customerID;
+    /**
+     * The Name field.
+     */
     @FXML
     public TextField nameField;
+    /**
+     * The Address field.
+     */
     @FXML
     public TextField addressField;
+    /**
+     * The Postal code field.
+     */
     @FXML
     public TextField postalCodeField;
+    /**
+     * The Phone number field.
+     */
     @FXML
     public TextField phoneNumberField;
+    /**
+     * The Country combo box.
+     */
     @FXML
     public ComboBox<String> countryComboBox;
+    /**
+     * The Division combo box.
+     */
     @FXML
     public ComboBox<String> divisionComboBox;
+    /**
+     * The Country list.
+     */
     public ObservableList<String> countryList = FXCollections.observableArrayList();
+    /**
+     * The Division list.
+     */
     public ObservableList<String> divisionList = FXCollections.observableArrayList();
 
     @Override
@@ -75,6 +105,11 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Save button clicked.
+     *
+     * @param actionEvent the action event
+     */
     public void saveButtonClicked(ActionEvent actionEvent) {
         try {
             Customer customer = new Customer();
@@ -121,11 +156,23 @@ public class ModifyCustomerController implements Initializable {
         }
     }
 
+    /**
+     * Cancel button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void cancelButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("CustomerView.fxml"), "Customers");
     }
 
+    /**
+     * Country selected.
+     *
+     * @param actionEvent the action event
+     * @throws SQLException the sql exception
+     */
     public void countrySelected(ActionEvent actionEvent) throws SQLException {
         divisionList.clear();
         divisionComboBox.setValue("");

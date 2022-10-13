@@ -26,39 +26,93 @@ import static com.main.javafxapp.Controllers.LoginController.utcZone;
 import static com.main.javafxapp.Toolkit.JDBC.connection;
 import static com.main.javafxapp.Toolkit.Utility.*;
 
+/**
+ * The type Add appointment controller.
+ */
 public class AddAppointmentController implements Initializable {
+    /**
+     * The Add appointment title.
+     */
     @FXML
     public TextField addAppointmentTitle;
+    /**
+     * The Add appointment description.
+     */
     @FXML
     public TextField addAppointmentDescription;
+    /**
+     * The Add appointment location.
+     */
     @FXML
     public TextField addAppointmentLocation;
+    /**
+     * The Add appointment type.
+     */
     @FXML
     public TextField addAppointmentType;
+    /**
+     * The Add appointment start date.
+     */
     @FXML
     public DatePicker addAppointmentStartDate;
+    /**
+     * The Add appointment end date.
+     */
     @FXML
     public DatePicker addAppointmentEndDate;
+    /**
+     * The Add appointment start time hours.
+     */
     @FXML
     public Spinner<Integer> addAppointmentStartTimeHours;
+    /**
+     * The Add appointment start time minutes.
+     */
     @FXML
     public Spinner<Integer> addAppointmentStartTimeMinutes;
+    /**
+     * The Add appointment end time hours.
+     */
     @FXML
     public Spinner<Integer> addAppointmentEndTimeHours;
+    /**
+     * The Add appointment end time minutes.
+     */
     @FXML
     public Spinner<Integer> addAppointmentEndTimeMinutes;
+    /**
+     * The Add appointment contact cb.
+     */
     @FXML
     public ComboBox<String> addAppointmentContactCB = new ComboBox<String>();
+    /**
+     * The Add appointment customer cb.
+     */
     @FXML
     public ComboBox<Integer> addAppointmentCustomerCB = new ComboBox<Integer>();
 
+    /**
+     * The Add appointment user cb.
+     */
     @FXML
     public ComboBox<Integer> addAppointmentUserCB = new ComboBox<Integer>();
 
+    /**
+     * The Customer id list.
+     */
     public ObservableList<Integer> customerIDList = FXCollections.observableArrayList();
+    /**
+     * The Contact name list.
+     */
     public ObservableList<String> contactNameList = FXCollections.observableArrayList();
+    /**
+     * The User id list.
+     */
     public ObservableList<Integer> userIDList = FXCollections.observableArrayList();
 
+    /**
+     * The Contact map.
+     */
     public Map<String, Integer> contactMap = new HashMap<String, Integer>();
 
     @Override
@@ -89,6 +143,11 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Add appointment save button clicked.
+     *
+     * @param actionEvent the action event
+     */
     public void addAppointmentSaveButtonClicked(ActionEvent actionEvent) {
         Random rand = new Random();
         try {
@@ -169,6 +228,12 @@ public class AddAppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Add appointment cancel button clicked.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
     public void addAppointmentCancelButtonClicked(ActionEvent actionEvent) throws IOException {
         Utility.closeWindow(actionEvent);
         Utility.getStage(Main.class.getResource("ScheduleView.fxml"), "Appointment Schedule");

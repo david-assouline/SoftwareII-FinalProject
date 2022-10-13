@@ -32,7 +32,8 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton fx:id="viewByMonthRadio" layoutX="138.0" layoutY="24.0" mnemonicParsing="false" onAction="#viewByMonthRadioClicked" prefHeight="18.0" prefWidth="106.0" text="This Month" toggleGroup="$viewSelector" />
-      <Button layoutX="783.0" layoutY="465.0" mnemonicParsing="false" onAction="#customersButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Customers" />
+      <Button layoutX="398.0" layoutY="466.0" mnemonicParsing="false" onAction="#customersButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Customers" />
       <RadioButton fx:id="viewAllRadio" layoutX="252.0" layoutY="24.0" mnemonicParsing="false" onAction="#viewAllRadioClicked" prefHeight="18.0" prefWidth="106.0" text="View All" toggleGroup="$viewSelector" />
+      <Button layoutX="783.0" layoutY="465.0" mnemonicParsing="false" onAction="#reportsButtonClicked" prefHeight="26.0" prefWidth="150.0" text="Reports" />
    </children>
 </AnchorPane>

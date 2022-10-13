@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="534.0" prefWidth="746.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.javafxapp.Controllers.ReportsController">
+   <children>
+      <Button layoutX="138.0" layoutY="47.0" mnemonicParsing="false" onAction="#customerReportClicked" prefHeight="30.0" prefWidth="120.0" text="Customer Report" />
+      <Button layoutX="313.0" layoutY="47.0" mnemonicParsing="false" onAction="#scheduleReportClicked" prefHeight="30.0" prefWidth="120.0" text="Schedule Report" />
+      <Button layoutX="488.0" layoutY="47.0" mnemonicParsing="false" onAction="#contactsReportClicked" prefHeight="30.0" prefWidth="120.0" text="Contacts Report" />
+      <TextArea fx:id="textArea" layoutX="52.0" layoutY="96.0" prefHeight="378.0" prefWidth="642.0" />
+      <Button layoutX="313.0" layoutY="489.0" mnemonicParsing="false" onAction="#backToScheduleClicked" prefHeight="30.0" prefWidth="120.0" text="Back to Schedule" />
+   </children>
+</AnchorPane>
